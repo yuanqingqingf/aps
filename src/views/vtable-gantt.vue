@@ -1,7 +1,7 @@
 <template>
   <div style="padding-top: 50px">
     <!-- <el-button :loading="loading" @click="exportData">导出甘特图</el-button> -->
-    <div id="gantt" style="width: 100%; height: 600px"></div>
+    <div id="gantt" style="width: 100%; height: 700px"></div>
   </div>
 </template>
 
@@ -929,7 +929,34 @@ onMounted(() => {
 
     grid: {
       horizontalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
-      verticalLine: { lineWidth: 1, lineColor: '#e1e4e8' }
+      verticalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
+      horizontalBackgroundColor: [
+        '#f1f1f1',
+        '#f1f1f1',
+        '#f1f1f1',
+        '#dddddd',
+        '#dddddd',
+        '#dddddd',
+        '#cccccc',
+        '#cccccc',
+        '#aaa',
+        '#aaa'
+      ],
+      verticalLineDependenceOnTimeScale: 'second',
+      verticalLine: function (args) {
+        if (args.index % 5 === 0) {
+          return {
+            lineWidth: 1,
+            lineColor: '#ffffff'
+          }
+        } else {
+          return {
+            lineWidth: 1,
+            lineColor: '#ffffff',
+            lineDash: [3]
+          }
+        }
+      }
     },
 
     rowHeight: 50,
@@ -957,25 +984,76 @@ onMounted(() => {
     },
 
     timelineHeader: {
-      horizontalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
-      verticalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
+      colWidth: 10,
+      horizontalLine: {
+        lineWidth: 0,
+        lineColor: '#ccc'
+      },
+      verticalLine: {
+        lineWidth: 1,
+        lineColor: '#ccc'
+      },
       scales: [
         {
-          unit: 'minute', // ✅ 单位：分钟
-          step: 10, // ✅ 间隔：10分钟
+          unit: 'day',
+          step: 1,
+          format(date) {
+            return ''
+          },
+          rowHeight: 30,
+          style: {
+            fontSize: 0
+          }
+        },
+        {
+          unit: 'minute',
+          step: 10,
           format(date) {
             const d = date.startDate
-            const h = d.getHours()
-            const m = String(d.getMinutes()).padStart(2, '0') // 保持 14:00, 14:10 格式
+            const h = String(d.getHours()).padStart(2, '0')
+            const m = String(d.getMinutes()).padStart(2, '0')
             return `${h}:${m}`
           },
+          rowHeight: 10,
           style: {
-            fontSize: 10,
-            color: '#333'
+            fontSize: 12,
+            color: '#000',
+            textAlign: 'center',
+            fontWeight: 'normal',
+            padding: [0, 100, 33, 0]
+          }
+        },
+        {
+          unit: 'minute',
+          step: 5,
+          format(date) {
+            return ''
           },
-          lineStyle: {
-            lineWidth: 1,
-            lineColor: '#e1e4e8'
+          rowHeight: 10,
+          style: {
+            fontSize: 0
+          }
+        },
+        {
+          unit: 'minute',
+          step: 1,
+          format(date) {
+            return ''
+          },
+          rowHeight: 10,
+          style: {
+            fontSize: 0
+          }
+        },
+        {
+          unit: 'second',
+          step: 60,
+          format(date) {
+            return ''
+          },
+          rowHeight: 0,
+          style: {
+            fontSize: 0
           }
         }
       ]
