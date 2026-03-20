@@ -14,9 +14,10 @@
   },
   "dependencies": {
     "@micro-zoe/micro-app": "0.8.10",
-    "@visactor/vtable": "^1.23.3",
-    "@visactor/vtable-gantt": "^1.23.3",
-    "@visactor/vtable-plugins": "^1.23.3",
+    "@visactor/vrender": "^1.0.41",
+    "@visactor/vtable": "^1.24.0",
+    "@visactor/vtable-gantt": "^1.24.0",
+    "@visactor/vtable-plugins": "^1.24.0",
     "dhtmlx-gantt": "^9.1.2",
     "element-plus": "^2.13.5",
     "pinia": "^2.1.7",
