@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <el-button :loading="loading" @click="exportData">导出甘特图</el-button>
-    <div id="gantt" style="width: 100%; height: 600px"></div>
+  <div style="padding-top: 50px">
+    <!-- <el-button :loading="loading" @click="exportData">导出甘特图</el-button> -->
+    <div id="gantt" style="width: 100%; height: 700px"></div>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ const exportGanttPlugin = new ExportGanttPlugin()
 const loading = ref(false)
 const imgShif = ref(false)
 const curLines = ref([])
-const taskCustomLayout = (args) => {
+const taskCustomLayout1 = (args) => {
   const { table, row, col, rect, value } = args
   let image = null
   if (value.includes('转炉')) {
@@ -84,57 +84,129 @@ const taskCustomLayout = (args) => {
     renderDefault: false
   }
 }
-// const taskCustomLayout1 = (args) => {
-//   const { table, row, col, rect, value } = args
-//   const record = table.getRecordByRowCol(col, row)
-//   const { height, width } = rect || table.getCellRect(col, row)
+const taskCustomLayout = (args) => {
+  const { table, row, col, rect, value } = args
+  const record = table.getRecordByRowCol(col, row)
+  const { height, width } = rect || table.getCellRect(col, row)
+  const imgSize = 30
+  const group = new VTableGantt.VRender.Group({
+    width,
+    height,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+    // justifyContent: 'space-between'
+  })
+  const text = new VTableGantt.VRender.Text({
+    text: record.name,
+    fontSize: 11,
+    fill: '#333',
+    direction: 'vertical'
+  })
+  const circleGroup = new VTableGantt.VRender.Group({
+    width: 15,
+    height: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  })
+  const circleImg = new VTableGantt.VRender.Image({
+    width: 20,
+    height: 20,
+    image: circle
+  })
+  circleGroup.add(circleImg)
+  const withTemp = value.includes('RH') ? imgSize + 8 : imgSize + 26
+  const img1Group = new VTableGantt.VRender.Group({
+    width: withTemp,
+    height: imgSize
+  })
+  const img2Group = new VTableGantt.VRender.Group({
+    width: withTemp,
+    height: imgSize,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  })
+  const img3Group = new VTableGantt.VRender.Group({
+    width: imgSize + 8,
+    height: imgSize,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  })
+  if (value.includes('转炉')) {
+    const img = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: zhuanLu
+    })
+    const zhuan = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: imgShif.value ? zhuanLu1 : zhuanLu
+    })
+    img1Group.add(img)
+    img2Group.add(zhuan)
+  } else if (value.includes('氩站')) {
+    const img = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: yaZhan
+    })
+    const zhuan = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: yaZhan
+    })
+    img1Group.add(img)
+    img2Group.add(zhuan)
+  } else if (value.includes('RH')) {
+    const img = new VTableGantt.VRender.Image({
+      width: 25,
+      height: 25,
+      image: yaZhan
+    })
+    const zhuan = new VTableGantt.VRender.Image({
+      width: 25,
+      height: 25,
+      image: yaZhan
+    })
+    img1Group.add(img)
+    const RHImg = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: RH
+    })
+    img3Group.add(RHImg)
 
-//   const group = new VTableGantt.VRender.Group({
-//     width,
-//     height,
-//     display: 'flex',
-//     flexDirection: 'row',
-//     alignItems: 'center'
-//   })
-//   const text = new VTableGantt.VRender.Text({
-//     text: record.name,
-//     fontSize: 14,
-//     fill: '#333',
-//     x: 40,
-//     y: height / 2,
-//     textBaseline: 'middle'
-//   })
-//   if (value.includes('转炉')) {
-//     const img = new VTableGantt.VRender.Image({
-//       width: 30,
-//       height: 30,
-//       image: zhuanLu
-//     })
-//     const zhuan = new VTableGantt.VRender.Image({
-//       width: 30,
-//       height: 30,
-//       // image: imgShif.value ? zhuanLu1 : zhuanLu
-//       image: zhuanLu
-//     })
-//     group.add(img)
-//     group.add(zhuan)
-//   } else if (value.includes('氩站')) {
-//     const img = new VTableGantt.VRender.Image({
-//       width: 30,
-//       height: 30,
-//       image: yaZhan
-//     })
-//     const zhuan = new VTableGantt.VRender.Image({
-//       width: 30,
-//       height: 30,
-//       // image: imgShif.value ? zhuanLu1 : zhuanLu
-//       image: yaZhan
-//     })
-//     group.add(img)
-//     group.add(zhuan)
-//   }
-//   group.add(text)
-// }
+    img2Group.add(zhuan)
+  } else if (value.includes('铸机')) {
+    const img = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: zhuJi
+    })
+    const zhuan = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: zhuJi
+    })
+    img1Group.add(img)
+    img2Group.add(zhuan)
+  }
+  group.add(circleGroup)
+  group.add(img1Group)
+  if (value.includes('RH')) {
+    group.add(img3Group)
+  }
+  group.add(img2Group)
+  group.add(text)
+  return {
+    rootContainer: group,
+    renderDefault: false
+  }
+}
 const taskBarCustomLayout = (args) => {
   // const { width, height, taskRecord } = args
   // let curHeitht = height + 20
@@ -404,7 +476,7 @@ onMounted(() => {
           zhuan_id: 'conv3_L',
           ya_id: 'arg3_L',
           RH_id: 'rh3_L',
-          zhu_id: 'cast1_L'
+          zhu_id: 'cast3_L'
         }
       ]
     },
@@ -635,16 +707,52 @@ onMounted(() => {
           ya_id: 'arg2_H',
           RH_id: 'rh2_H',
           zhu_id: 'cast2_H'
+        }
+      ]
+    },
+    {
+      id: 'rh3', // 新增：3#RH炉
+      name: '3#RH炉',
+      children: [
+        {
+          id: 'rh3_I',
+          name: '炉次I',
+          start: `${fullDate} 09:00`,
+          end: `${fullDate} 09:15`,
+          zhuan_id: 'conv3_I',
+          ya_id: 'arg3_I',
+          RH_id: 'rh3_I',
+          zhu_id: 'cast3_I'
         },
         {
-          id: 'rh2_L',
+          id: 'rh3_J',
+          name: '炉次J',
+          start: `${fullDate} 10:00`,
+          end: `${fullDate} 10:15`,
+          zhuan_id: 'conv3_J',
+          ya_id: 'arg3_J',
+          RH_id: 'rh3_J',
+          zhu_id: 'cast3_J'
+        },
+        {
+          id: 'rh3_K',
+          name: '炉次K',
+          start: `${fullDate} 11:00`,
+          end: `${fullDate} 11:15`,
+          zhuan_id: 'conv3_K',
+          ya_id: 'arg3_K',
+          RH_id: 'rh3_K',
+          zhu_id: 'cast3_K'
+        },
+        {
+          id: 'rh3_L',
           name: '炉次L',
-          start: `${fullDate} 12:10`,
-          end: `${fullDate} 12:25`,
-          zhuan_id: 'conv2_L',
-          ya_id: 'arg2_L',
-          RH_id: 'rh2_L',
-          zhu_id: 'cast1_L'
+          start: `${fullDate} 12:00`,
+          end: `${fullDate} 12:15`,
+          zhuan_id: 'conv3_L',
+          ya_id: 'arg3_L',
+          RH_id: 'rh3_L',
+          zhu_id: 'cast3_L'
         }
       ]
     },
@@ -693,14 +801,44 @@ onMounted(() => {
           zhu_id: 'cast1_D'
         },
         {
-          id: 'cast1_L',
-          name: '炉次L',
-          start: `${fullDate} 11:45`,
+          id: 'cast3_I',
+          name: '炉次I',
+          start: `${fullDate} 09:30`,
+          end: `${fullDate} 09:55`,
+          zhuan_id: 'conv3_I',
+          ya_id: 'arg3_I',
+          RH_id: 'rh3_I',
+          zhu_id: 'cast3_I'
+        },
+        {
+          id: 'cast3_J',
+          name: '炉次J',
+          start: `${fullDate} 10:30`,
+          end: `${fullDate} 10:55`,
+          zhuan_id: 'conv3_J',
+          ya_id: 'arg3_J',
+          RH_id: 'rh3_J',
+          zhu_id: 'cast3_J'
+        },
+        {
+          id: 'cast3_K',
+          name: '炉次K',
+          start: `${fullDate} 11:30`,
           end: `${fullDate} 11:55`,
+          zhuan_id: 'conv3_K',
+          ya_id: 'arg3_K',
+          RH_id: 'rh3_K',
+          zhu_id: 'cast3_K'
+        },
+        {
+          id: 'cast3_L',
+          name: '炉次L',
+          start: `${fullDate} 12:30`,
+          end: `${fullDate} 12:50`,
           zhuan_id: 'conv3_L',
           ya_id: 'arg3_L',
           RH_id: 'rh3_L',
-          zhu_id: 'cast1_L'
+          zhu_id: 'cast3_L'
         }
       ]
     },
@@ -768,7 +906,7 @@ onMounted(() => {
         {
           field: 'name',
           title: '设备',
-          width: 200,
+          width: 150,
           tree: true,
           // 生效
           customLayout: taskCustomLayout
@@ -792,7 +930,18 @@ onMounted(() => {
     grid: {
       horizontalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
       verticalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
-      horizontalBackgroundColor: ['#f1f1f1', '#f1f1f1', '#f1f1f1', '#dddddd', '#dddddd', '#dddddd', '#cccccc', '#cccccc', '#aaa', '#aaa'],
+      horizontalBackgroundColor: [
+        '#f1f1f1',
+        '#f1f1f1',
+        '#f1f1f1',
+        '#dddddd',
+        '#dddddd',
+        '#dddddd',
+        '#cccccc',
+        '#cccccc',
+        '#aaa',
+        '#aaa'
+      ],
       verticalLineDependenceOnTimeScale: 'second',
       verticalLine: function (args) {
         if (args.index % 5 === 0) {
@@ -807,11 +956,10 @@ onMounted(() => {
             lineDash: [3]
           }
         }
-
-      },
+      }
     },
 
-    rowHeight: 40,
+    rowHeight: 50,
 
     taskBar: {
       resizable: false,
@@ -836,7 +984,7 @@ onMounted(() => {
     },
 
     timelineHeader: {
-      colWidth:10,
+      colWidth: 10,
       horizontalLine: {
         lineWidth: 0,
         lineColor: '#ccc'
@@ -854,7 +1002,7 @@ onMounted(() => {
           },
           rowHeight: 30,
           style: {
-            fontSize: 0,
+            fontSize: 0
           }
         },
         {
@@ -883,8 +1031,8 @@ onMounted(() => {
           },
           rowHeight: 10,
           style: {
-            fontSize: 0,
-          },
+            fontSize: 0
+          }
         },
         {
           unit: 'minute',
@@ -894,7 +1042,7 @@ onMounted(() => {
           },
           rowHeight: 10,
           style: {
-            fontSize: 0,
+            fontSize: 0
           }
         },
         {
@@ -905,7 +1053,7 @@ onMounted(() => {
           },
           rowHeight: 0,
           style: {
-            fontSize: 0,
+            fontSize: 0
           }
         }
       ]
@@ -960,7 +1108,6 @@ onMounted(() => {
   }
   const container = document.getElementById('gantt')
   ganttInstance.value = new VTableGantt.Gantt(container, option)
-  console.log('鼎折覆餗', ganttInstance.value)
 
   let refreshCount = 0 // 计数器
 
@@ -991,7 +1138,6 @@ onMounted(() => {
       const gantt = ganttInstance.value
       // // 直接执行滚动
       // ganttInstance.value.scrollLeft += 100
-      console.log('多少')
       refreshCount = 0
 
       // 测试
@@ -1026,7 +1172,7 @@ onMounted(() => {
       {
         field: 'name',
         title: '设备',
-        width: 200,
+        width: 150,
         tree: true,
         // 生效
         customLayout: taskCustomLayout
@@ -1037,6 +1183,12 @@ onMounted(() => {
   ganttInstance.value.on('click_task_bar', (args) => {
     const { record } = args
     const { zhuan_id, ya_id, RH_id, zhu_id } = record
+    if (curLines.value.length) {
+      curLines.value.map((item) => {
+        ganttInstance.value.deleteLink(item)
+      })
+      curLines.value = []
+    }
     let temp = [
       {
         type: VTableGantt.TYPES.DependencyType.FinishToStart,

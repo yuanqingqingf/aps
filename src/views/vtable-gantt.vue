@@ -1108,7 +1108,6 @@ onMounted(() => {
   }
   const container = document.getElementById('gantt')
   ganttInstance.value = new VTableGantt.Gantt(container, option)
-  console.log('鼎折覆餗', ganttInstance.value)
 
   let refreshCount = 0 // 计数器
 
