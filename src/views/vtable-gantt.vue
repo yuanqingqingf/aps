@@ -404,7 +404,7 @@ onMounted(() => {
           zhuan_id: 'conv3_L',
           ya_id: 'arg3_L',
           RH_id: 'rh3_L',
-          zhu_id: 'cast1_L'
+          zhu_id: 'cast3_L'
         }
       ]
     },
@@ -635,16 +635,52 @@ onMounted(() => {
           ya_id: 'arg2_H',
           RH_id: 'rh2_H',
           zhu_id: 'cast2_H'
+        }
+      ]
+    },
+    {
+      id: 'rh3', // 新增：3#RH炉
+      name: '3#RH炉',
+      children: [
+        {
+          id: 'rh3_I',
+          name: '炉次I',
+          start: `${fullDate} 09:00`,
+          end: `${fullDate} 09:15`,
+          zhuan_id: 'conv3_I',
+          ya_id: 'arg3_I',
+          RH_id: 'rh3_I',
+          zhu_id: 'cast3_I'
         },
         {
-          id: 'rh2_L',
+          id: 'rh3_J',
+          name: '炉次J',
+          start: `${fullDate} 10:00`,
+          end: `${fullDate} 10:15`,
+          zhuan_id: 'conv3_J',
+          ya_id: 'arg3_J',
+          RH_id: 'rh3_J',
+          zhu_id: 'cast3_J'
+        },
+        {
+          id: 'rh3_K',
+          name: '炉次K',
+          start: `${fullDate} 11:00`,
+          end: `${fullDate} 11:15`,
+          zhuan_id: 'conv3_K',
+          ya_id: 'arg3_K',
+          RH_id: 'rh3_K',
+          zhu_id: 'cast3_K'
+        },
+        {
+          id: 'rh3_L',
           name: '炉次L',
-          start: `${fullDate} 12:10`,
-          end: `${fullDate} 12:25`,
-          zhuan_id: 'conv2_L',
-          ya_id: 'arg2_L',
-          RH_id: 'rh2_L',
-          zhu_id: 'cast1_L'
+          start: `${fullDate} 12:00`,
+          end: `${fullDate} 12:15`,
+          zhuan_id: 'conv3_L',
+          ya_id: 'arg3_L',
+          RH_id: 'rh3_L',
+          zhu_id: 'cast3_L'
         }
       ]
     },
@@ -693,14 +729,44 @@ onMounted(() => {
           zhu_id: 'cast1_D'
         },
         {
-          id: 'cast1_L',
-          name: '炉次L',
-          start: `${fullDate} 11:45`,
+          id: 'cast3_I',
+          name: '炉次I',
+          start: `${fullDate} 09:30`,
+          end: `${fullDate} 09:55`,
+          zhuan_id: 'conv3_I',
+          ya_id: 'arg3_I',
+          RH_id: 'rh3_I',
+          zhu_id: 'cast3_I'
+        },
+        {
+          id: 'cast3_J',
+          name: '炉次J',
+          start: `${fullDate} 10:30`,
+          end: `${fullDate} 10:55`,
+          zhuan_id: 'conv3_J',
+          ya_id: 'arg3_J',
+          RH_id: 'rh3_J',
+          zhu_id: 'cast3_J'
+        },
+        {
+          id: 'cast3_K',
+          name: '炉次K',
+          start: `${fullDate} 11:30`,
           end: `${fullDate} 11:55`,
+          zhuan_id: 'conv3_K',
+          ya_id: 'arg3_K',
+          RH_id: 'rh3_K',
+          zhu_id: 'cast3_K'
+        },
+        {
+          id: 'cast3_L',
+          name: '炉次L',
+          start: `${fullDate} 12:30`,
+          end: `${fullDate} 12:50`,
           zhuan_id: 'conv3_L',
           ya_id: 'arg3_L',
           RH_id: 'rh3_L',
-          zhu_id: 'cast1_L'
+          zhu_id: 'cast3_L'
         }
       ]
     },
