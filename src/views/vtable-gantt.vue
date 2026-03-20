@@ -1159,7 +1159,7 @@ onMounted(() => {
         // 5. 计算居中
         const visibleWidth = gantt.tableNoFrameWidth
         const targetLeft = lineX - visibleWidth / 2
-        ganttInstance.value.scrollLeft = targetLeft + 10
+        ganttInstance.value.scrollLeft = targetLeft + 30
         console.log('第三方都是', targetLeft)
       }
     }
