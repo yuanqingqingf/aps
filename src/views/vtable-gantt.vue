@@ -969,6 +969,12 @@ onMounted(() => {
   ganttInstance.value.on('click_task_bar', (args) => {
     const { record } = args
     const { zhuan_id, ya_id, RH_id, zhu_id } = record
+    if (curLines.value.length) {
+      curLines.value.map((item) => {
+        ganttInstance.value.deleteLink(item)
+      })
+      curLines.value = []
+    }
     let temp = [
       {
         type: VTableGantt.TYPES.DependencyType.FinishToStart,
