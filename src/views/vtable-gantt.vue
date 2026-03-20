@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-button :loading="loading" @click="exportData">导出甘特图</el-button>
+  <div style="padding-top: 50px">
+    <!-- <el-button :loading="loading" @click="exportData">导出甘特图</el-button> -->
     <div id="gantt" style="width: 100%; height: 600px"></div>
   </div>
 </template>
@@ -21,7 +21,7 @@ const exportGanttPlugin = new ExportGanttPlugin()
 const loading = ref(false)
 const imgShif = ref(false)
 const curLines = ref([])
-const taskCustomLayout = (args) => {
+const taskCustomLayout1 = (args) => {
   const { table, row, col, rect, value } = args
   let image = null
   if (value.includes('转炉')) {
@@ -84,57 +84,129 @@ const taskCustomLayout = (args) => {
     renderDefault: false
   }
 }
-// const taskCustomLayout1 = (args) => {
-//   const { table, row, col, rect, value } = args
-//   const record = table.getRecordByRowCol(col, row)
-//   const { height, width } = rect || table.getCellRect(col, row)
+const taskCustomLayout = (args) => {
+  const { table, row, col, rect, value } = args
+  const record = table.getRecordByRowCol(col, row)
+  const { height, width } = rect || table.getCellRect(col, row)
+  const imgSize = 30
+  const group = new VTableGantt.VRender.Group({
+    width,
+    height,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+    // justifyContent: 'space-between'
+  })
+  const text = new VTableGantt.VRender.Text({
+    text: record.name,
+    fontSize: 11,
+    fill: '#333',
+    direction: 'vertical'
+  })
+  const circleGroup = new VTableGantt.VRender.Group({
+    width: 15,
+    height: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  })
+  const circleImg = new VTableGantt.VRender.Image({
+    width: 20,
+    height: 20,
+    image: circle
+  })
+  circleGroup.add(circleImg)
+  const withTemp = value.includes('RH') ? imgSize + 8 : imgSize + 26
+  const img1Group = new VTableGantt.VRender.Group({
+    width: withTemp,
+    height: imgSize
+  })
+  const img2Group = new VTableGantt.VRender.Group({
+    width: withTemp,
+    height: imgSize,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  })
+  const img3Group = new VTableGantt.VRender.Group({
+    width: imgSize + 8,
+    height: imgSize,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  })
+  if (value.includes('转炉')) {
+    const img = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: zhuanLu
+    })
+    const zhuan = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: imgShif.value ? zhuanLu1 : zhuanLu
+    })
+    img1Group.add(img)
+    img2Group.add(zhuan)
+  } else if (value.includes('氩站')) {
+    const img = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: yaZhan
+    })
+    const zhuan = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: yaZhan
+    })
+    img1Group.add(img)
+    img2Group.add(zhuan)
+  } else if (value.includes('RH')) {
+    const img = new VTableGantt.VRender.Image({
+      width: 25,
+      height: 25,
+      image: yaZhan
+    })
+    const zhuan = new VTableGantt.VRender.Image({
+      width: 25,
+      height: 25,
+      image: yaZhan
+    })
+    img1Group.add(img)
+    const RHImg = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: RH
+    })
+    img3Group.add(RHImg)
 
-//   const group = new VTableGantt.VRender.Group({
-//     width,
-//     height,
-//     display: 'flex',
-//     flexDirection: 'row',
-//     alignItems: 'center'
-//   })
-//   const text = new VTableGantt.VRender.Text({
-//     text: record.name,
-//     fontSize: 14,
-//     fill: '#333',
-//     x: 40,
-//     y: height / 2,
-//     textBaseline: 'middle'
-//   })
-//   if (value.includes('转炉')) {
-//     const img = new VTableGantt.VRender.Image({
-//       width: 30,
-//       height: 30,
-//       image: zhuanLu
-//     })
-//     const zhuan = new VTableGantt.VRender.Image({
-//       width: 30,
-//       height: 30,
-//       // image: imgShif.value ? zhuanLu1 : zhuanLu
-//       image: zhuanLu
-//     })
-//     group.add(img)
-//     group.add(zhuan)
-//   } else if (value.includes('氩站')) {
-//     const img = new VTableGantt.VRender.Image({
-//       width: 30,
-//       height: 30,
-//       image: yaZhan
-//     })
-//     const zhuan = new VTableGantt.VRender.Image({
-//       width: 30,
-//       height: 30,
-//       // image: imgShif.value ? zhuanLu1 : zhuanLu
-//       image: yaZhan
-//     })
-//     group.add(img)
-//     group.add(zhuan)
-//   }
-//   group.add(text)
-// }
+    img2Group.add(zhuan)
+  } else if (value.includes('铸机')) {
+    const img = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: zhuJi
+    })
+    const zhuan = new VTableGantt.VRender.Image({
+      width: imgSize,
+      height: imgSize,
+      image: zhuJi
+    })
+    img1Group.add(img)
+    img2Group.add(zhuan)
+  }
+  group.add(circleGroup)
+  group.add(img1Group)
+  if (value.includes('RH')) {
+    group.add(img3Group)
+  }
+  group.add(img2Group)
+  group.add(text)
+  return {
+    rootContainer: group,
+    renderDefault: false
+  }
+}
 const taskBarCustomLayout = (args) => {
   // const { width, height, taskRecord } = args
   // let curHeitht = height + 20
@@ -834,7 +906,7 @@ onMounted(() => {
         {
           field: 'name',
           title: '设备',
-          width: 200,
+          width: 150,
           tree: true,
           // 生效
           customLayout: taskCustomLayout
@@ -860,7 +932,7 @@ onMounted(() => {
       verticalLine: { lineWidth: 1, lineColor: '#e1e4e8' }
     },
 
-    rowHeight: 40,
+    rowHeight: 50,
 
     taskBar: {
       resizable: false,
@@ -989,7 +1061,6 @@ onMounted(() => {
       const gantt = ganttInstance.value
       // // 直接执行滚动
       // ganttInstance.value.scrollLeft += 100
-      console.log('多少')
       refreshCount = 0
 
       // 测试
@@ -1024,7 +1095,7 @@ onMounted(() => {
       {
         field: 'name',
         title: '设备',
-        width: 200,
+        width: 150,
         tree: true,
         // 生效
         customLayout: taskCustomLayout
