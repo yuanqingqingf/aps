@@ -23,6 +23,9 @@ importers:
       '@visactor/vtable-plugins':
         specifier: ^1.24.0
         version: 1.24.0(@visactor/vtable-gantt@1.24.0)(@visactor/vtable@1.24.0)
+      '@visactor/vutils':
+        specifier: ^1.0.23
+        version: 1.0.23
       dhtmlx-gantt:
         specifier: ^9.1.2
         version: 9.1.2

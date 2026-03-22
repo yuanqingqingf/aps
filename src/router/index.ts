@@ -8,6 +8,7 @@
  */
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import DyView from '../views/DyView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,11 @@ const router = createRouter({
       path: '/home',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/dy',
+      name: 'dy',
+      component: DyView
     },
     {
       path: '/timeline',

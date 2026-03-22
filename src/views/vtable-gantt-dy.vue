@@ -7,7 +7,8 @@
 
 <script setup lang="jsx">
 import { onMounted, onUnmounted, ref, nextTick } from 'vue' // ✅ 导入 onUnmounted
-import * as VTableGantt from '@visactor/vtable-gantt'
+// import * as VTableGantt from '@visactor/vtable-gantt'
+import * as VTableGantt from '@/utils/gantt/es/index.js'
 import { ExportGanttPlugin } from '@visactor/vtable-plugins'
 import zhuanLu from '../assets/zhuanLu.png'
 import zhuanLu1 from '../assets/zhuanLu1.png'
@@ -925,7 +926,7 @@ onMounted(() => {
     },
 
     groupBy: true,
-    tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Arrange,
+    tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Inline,
 
     grid: {
       horizontalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
@@ -937,6 +938,7 @@ onMounted(() => {
         '#dddddd',
         '#dddddd',
         '#dddddd',
+        '#cccccc',
         '#cccccc',
         '#cccccc',
         '#aaa',
@@ -980,7 +982,8 @@ onMounted(() => {
 
     dependency: {
       links: [],
-      linkDeletable: true
+      linkDeletable: true,
+      distanceToTaskBar:20
     },
 
     timelineHeader: {

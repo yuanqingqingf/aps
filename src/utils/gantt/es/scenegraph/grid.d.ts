@@ -1,0 +1,32 @@
+import { Group } from '@visactor/vtable/es/vrender';
+import type { Scenegraph } from './scenegraph';
+import type { IGrid } from '../ts-types';
+export declare class Grid {
+    gridStyle: IGrid;
+    scrollLeft: number;
+    scrollTop: number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    rowHeight: number;
+    rowCount: number;
+    group: Group;
+    verticalLineGroup: Group;
+    horizontalLineGroup: Group;
+    verticalBackgroundRectsGroup: Group;
+    horizontalBackgroundRectsGroup: Group;
+    allGridHeight: number;
+    allGridWidth: number;
+    _scene: Scenegraph;
+    constructor(scene: Scenegraph);
+    createTimeLineHeaderBottomLine(): void;
+    createVerticalLines(): void;
+    createHorizontalLines(): void;
+    createVerticalBackgroundRects(): void;
+    createHorizontalBackgroundRects(): void;
+    refresh(): void;
+    setX(x: number): void;
+    setY(y: number): void;
+    resize(): void;
+}

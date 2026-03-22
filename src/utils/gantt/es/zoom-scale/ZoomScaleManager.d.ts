@@ -1,0 +1,55 @@
+import type { Gantt } from '../Gantt';
+import type { IZoomScale } from '../ts-types/zoom-scale';
+import type { ITimelineScale } from '../ts-types/gantt-engine';
+import { DataZoomIntegration, type DataZoomConfig } from './DataZoomIntegration';
+export declare class ZoomScaleManager {
+    private readonly gantt;
+    readonly config: IZoomScale;
+    private currentLevelIndex;
+    private levelBoundaries;
+    private globalMinMillisecondsPerPixel;
+    private globalMaxMillisecondsPerPixel;
+    private dataZoomIntegration;
+    constructor(gantt: Gantt, config: IZoomScale);
+    private initializeZoomLimits;
+    private initializeDataZoomIfNeeded;
+    handleTableWidthChange(): void;
+    private sortLevelsByCoarseness;
+    private calculateGlobalMillisecondsPerPixelRange;
+    private calculateLevelBoundaries;
+    updateZoomLimits(): void;
+    getGlobalMinMillisecondsPerPixel(): number;
+    getGlobalMaxMillisecondsPerPixel(): number;
+    private calculateInitialMillisecondsPerPixel;
+    private initializeWithMillisecondsPerPixel;
+    private setInitialLevel;
+    findOptimalLevel(millisecondsPerPixel: number): number;
+    switchToLevel(levelIndex: number): boolean;
+    findMinTimeUnit(scales: ITimelineScale[]): ITimelineScale;
+    private getUnitMilliseconds;
+    private getMinColWidthForUnit;
+    getCurrentLevel(): number;
+    getInitialMillisecondsPerPixel(): number;
+    getCurrentZoomState(): {
+        minUnit: "year" | "month" | "quarter" | "week" | "day" | "hour" | "minute" | "second";
+        step: number;
+        levelNum: number;
+        currentColWidth: number;
+    };
+    setZoomPosition(params: {
+        minUnit?: string;
+        step?: number;
+        levelNum?: number;
+        colWidth?: number;
+    }): boolean;
+    private findLevelByMinUnit;
+    zoomIn(factor?: number, center?: boolean, centerX?: number): void;
+    zoomOut(factor?: number, center?: boolean, centerX?: number): void;
+    zoomByPercentage(percentage: number, center?: boolean, centerX?: number): void;
+    getDataZoomIntegration(): DataZoomIntegration | null;
+    createDataZoomIntegration(config: DataZoomConfig): DataZoomIntegration;
+    destroyDataZoomIntegration(): void;
+    updateDataZoomResponsive(): void;
+    recalculateTimeScale(): void;
+    zoomByFactor(factor: number, keepCenter?: boolean, centerX?: number): void;
+}
