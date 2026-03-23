@@ -1,5 +1,6 @@
 <template>
   <div style="padding-top: 50px">
+    <!-- <el-button @click="changeMove">点击</el-button> -->
     <!-- <el-button :loading="loading" @click="exportData">导出甘特图</el-button> -->
     <div id="gantt" style="width: 100%; height: 700px"></div>
   </div>
@@ -21,6 +22,10 @@ const exportGanttPlugin = new ExportGanttPlugin()
 const loading = ref(false)
 const imgShif = ref(false)
 const curLines = ref([])
+const moveName = ref('炉次C')
+const changeMove = () => {
+  moveName.value = '炉次A'
+}
 const taskCustomLayout1 = (args) => {
   const { table, row, col, rect, value } = args
   let image = null
@@ -925,7 +930,8 @@ onMounted(() => {
     },
 
     groupBy: true,
-    tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Arrange,
+    // tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Arrange,
+    tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Inline,
 
     grid: {
       horizontalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
@@ -963,7 +969,14 @@ onMounted(() => {
 
     taskBar: {
       resizable: false,
-      // moveable: false,
+      // 拖动配置
+      moveable: (interactionArgs) => {
+        if (interactionArgs.taskRecord.name === moveName.value) {
+          return false
+        }
+        // console.log('参数', interactionArgs)
+        return true
+      },
       startDateField: 'start',
       endDateField: 'end',
       labelText: '{name}',
@@ -981,6 +994,7 @@ onMounted(() => {
     dependency: {
       links: [],
       linkDeletable: true
+      // distanceToTaskBar: -10,
     },
 
     timelineHeader: {
