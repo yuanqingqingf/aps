@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="jsx">
-import { onMounted, onUnmounted, ref, nextTick } from 'vue' // ✅ 导入 onUnmounted
+import { onMounted, onUnmounted, ref } from 'vue' // ✅ 导入 onUnmounted
 import * as VTableGantt from '@visactor/vtable-gantt'
 import { ExportGanttPlugin } from '@visactor/vtable-plugins'
 import zhuanLu from '../assets/zhuanLu.png'
