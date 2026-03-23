@@ -69,8 +69,8 @@ export class Scenegraph {
             clip: !0,
             pickable: !1
         }), this.stage.defaultLayer.add(this.ganttGroup), this.ganttGroup.name = "table", 
-        this.timelineHeader = new TimelineHeader(this), this.grid = new Grid(this), this.dependencyLink = new DependencyLink(this), 
-        this.taskBar = new TaskBar(this), this.markLine = new MarkLine(this), this.toolTip = new ToolTip(this), 
+        this.timelineHeader = new TimelineHeader(this), this.grid = new Grid(this), this.taskBar = new TaskBar(this), 
+        this.dependencyLink = new DependencyLink(this), this.markLine = new MarkLine(this), this.toolTip = new ToolTip(this), 
         this.frameBorder = new FrameBorder(this), this.scrollbarComponent = new ScrollBarComponent(this._gantt), 
         this.stage.defaultLayer.addChild(this.scrollbarComponent.hScrollBar), this.stage.defaultLayer.addChild(this.scrollbarComponent.vScrollBar), 
         this.dragOrderLine = new DragOrderLine(this);

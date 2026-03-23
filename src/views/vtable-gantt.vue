@@ -260,6 +260,7 @@ const taskBarCustomLayout = (args) => {
     width: splitX,
     height: splitY,
     fill: '#fff',
+    opacity: 0.6,
     stroke: '#333',
     lineWidth: 1,
     cornerRadius: 0 // 直角
@@ -300,6 +301,7 @@ const taskBarCustomLayout = (args) => {
     height: splitY,
     fill: '#e0e0e0', // 稍微灰一点
     stroke: '#333',
+    opacity: 0.6,
     lineWidth: 1
   })
   const subText = new VTableGantt.VRender.Text({
@@ -320,6 +322,7 @@ const taskBarCustomLayout = (args) => {
     height: height - splitY,
     fill: '#dcdcdc', // 最下面的灰色
     stroke: '#333',
+    opacity: 0.6,
     lineWidth: 1
   })
 
@@ -925,7 +928,7 @@ onMounted(() => {
     },
 
     groupBy: true,
-    tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Arrange,
+    tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Inline,
 
     grid: {
       horizontalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
