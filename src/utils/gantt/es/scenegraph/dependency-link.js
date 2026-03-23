@@ -141,11 +141,11 @@ export function generateLinkLinePoints(type, linkedFromTaskStartDate, linkedFrom
             x: lastPoint.x,
             y: lastPoint.y
         }, {
-            x: lastPoint.x - 10,
-            y: lastPoint.y - 12.5
+            x: lastPoint.x - 5,
+            y: lastPoint.y - 7.5
         }, {
-            x: lastPoint.x + 10,
-            y: lastPoint.y - 12.5
+            x: lastPoint.x + 5,
+            y: lastPoint.y - 7.5
         }, {
             x: lastPoint.x,
             y: lastPoint.y
@@ -295,18 +295,18 @@ export function updateLinkLinePoints(type, linkedFromTaskStartDate, linkedFromTa
             y: rowHeight * (linkedFromTaskRecordRowIndex + .5) + fromNodeDiffY
         }, {
             x: linkToPointX,
-            y: rowHeight * (linkedToTaskRecordRowIndex + .2)
+            y: rowHeight * (linkedToTaskRecordRowIndex + .2) + toNodeDiffY
         } ];
         const lastPoint = linePoints[linePoints.length - 1];
         arrowPoints = [ {
             x: lastPoint.x,
             y: lastPoint.y
         }, {
-            x: lastPoint.x - 10,
-            y: lastPoint.y - 12.5
+            x: lastPoint.x - 5,
+            y: lastPoint.y - 7.5
         }, {
-            x: lastPoint.x + 10,
-            y: lastPoint.y - 12.5
+            x: lastPoint.x + 5,
+            y: lastPoint.y - 7.5
         }, {
             x: lastPoint.x,
             y: lastPoint.y
