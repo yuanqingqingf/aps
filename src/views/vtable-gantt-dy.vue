@@ -209,6 +209,8 @@ const taskCustomLayout = (args) => {
   }
 }
 const taskBarCustomLayout = (args) => {
+  console.log(args.taskRecord)
+
   // const { width, height, taskRecord } = args
   // let curHeitht = height + 20
   // const group = new VTableGantt.VRender.Group({
@@ -238,104 +240,189 @@ const taskBarCustomLayout = (args) => {
   //   rootContainer: group,
   //   renderDefault: false
   // }
-  const { taskRecord, height, width } = args
-  // const { width, height } = rect
+  if (args.taskRecord.id !== 'cast3_L_temp') {
 
-  // 1. 根容器 (直接把属性平铺)
-  const group = new VTableGantt.VRender.Group({
-    width,
-    height,
-    clip: true,
-    cornerRadius: 0 // 显式设置为 0，确保直角
-  })
+    const { taskRecord, height, width } = args
+    // const { width, height } = rect
 
-  // 设定切分比例（比如 70% 宽，70% 高）
-  const splitX = width * 0.7
-  const splitY = height * 0.7
+    // 1. 根容器 (直接把属性平铺)
+    const group = new VTableGantt.VRender.Group({
+      width,
+      height,
+      clip: true,
+      cornerRadius: 0 // 显式设置为 0，确保直角
+    })
 
-  // --- 【左上区域】：白色背景 + 粗体主编号 ---
-  const mainRect = new VTableGantt.VRender.Rect({
-    name: 'main-rect-box',
-    x: 0,
-    y: 0,
-    width: splitX,
-    height: splitY,
-    fill: '#fff',
-    stroke: '#333',
-    lineWidth: 1,
-    cornerRadius: 0 // 直角
-  })
-  const mainText = new VTableGantt.VRender.Text({
-    text: taskRecord.name || '6302666',
-    x: splitX / 2,
-    y: splitY / 2,
-    fontSize: 12,
-    fontWeight: 'bold',
-    fill: '#000',
-    textAlign: 'center',
-    textBaseline: 'middle'
-  })
-  // group.on('click', (e) => {
-  //   console.log('直系拿了么试试')
-  //   // 停止事件冒泡，防止触发甘特图默认的点击行为
-  //   e.stopPropagation()
+    // 设定切分比例（比如 70% 宽，70% 高）
+    const splitX = width * 0.7
+    const splitY = height * 0.7
 
-  //   // 直接修改属性：变为蓝色
-  //   mainRect.setAttributes({
-  //     fill: '#5B8FF9' // 蓝色
-  //   })
+    // --- 【左上区域】：白色背景 + 粗体主编号 ---
+    const mainRect = new VTableGantt.VRender.Rect({
+      name: 'main-rect-box',
+      x: 0,
+      y: 0,
+      width: splitX,
+      height: splitY,
+      fill: '#fff',
+      stroke: '#333',
+      lineWidth: 1,
+      cornerRadius: 0 // 直角
+    })
+    const mainText = new VTableGantt.VRender.Text({
+      text: taskRecord.name || '6302666',
+      x: splitX / 2,
+      y: splitY / 2,
+      fontSize: 12,
+      fontWeight: 'bold',
+      fill: '#000',
+      textAlign: 'center',
+      textBaseline: 'middle'
+    })
+    // group.on('click', (e) => {
+    //   console.log('直系拿了么试试')
+    //   // 停止事件冒泡，防止触发甘特图默认的点击行为
+    //   e.stopPropagation()
 
-  //   // 如果文字也需要变白，可以顺便改 mainText
-  //   mainText.setAttributes({
-  //     fill: '#ffffff'
-  //   })
+    //   // 直接修改属性：变为蓝色
+    //   mainRect.setAttributes({
+    //     fill: '#5B8FF9' // 蓝色
+    //   })
 
-  //   // 强制更新渲染（确保颜色立即变化）
-  //   // mainRect.stage.renderNextFrame()
-  // })
-  // --- 【右上区域】：浅灰背景 + 次要标识 ---
-  const subRect = new VTableGantt.VRender.Rect({
-    x: splitX,
-    y: 0,
-    width: width - splitX,
-    height: splitY,
-    fill: '#e0e0e0', // 稍微灰一点
-    stroke: '#333',
-    lineWidth: 1
-  })
-  const subText = new VTableGantt.VRender.Text({
-    text: '24/',
-    x: splitX + (width - splitX) / 2,
-    y: splitY / 2,
-    fontSize: 11,
-    fill: '#333',
-    textAlign: 'center',
-    textBaseline: 'middle'
-  })
+    //   // 如果文字也需要变白，可以顺便改 mainText
+    //   mainText.setAttributes({
+    //     fill: '#ffffff'
+    //   })
 
-  // --- 【下方区域】：浅灰长条页脚 ---
-  const footerRect = new VTableGantt.VRender.Rect({
-    x: 0,
-    y: splitY,
-    width: width,
-    height: height - splitY,
-    fill: '#dcdcdc', // 最下面的灰色
-    stroke: '#333',
-    lineWidth: 1
-  })
+    //   // 强制更新渲染（确保颜色立即变化）
+    //   // mainRect.stage.renderNextFrame()
+    // })
+    // --- 【右上区域】：浅灰背景 + 次要标识 ---
+    const subRect = new VTableGantt.VRender.Rect({
+      x: splitX,
+      y: 0,
+      width: width - splitX,
+      height: splitY,
+      fill: '#e0e0e0', // 稍微灰一点
+      stroke: '#333',
+      lineWidth: 1
+    })
+    const subText = new VTableGantt.VRender.Text({
+      text: '24/',
+      x: splitX + (width - splitX) / 2,
+      y: splitY / 2,
+      fontSize: 11,
+      fill: '#333',
+      textAlign: 'center',
+      textBaseline: 'middle'
+    })
 
-  // 依次添加，后添加的会盖在先添加的上面
-  group.add(mainRect)
-  group.add(mainText)
-  group.add(subRect)
-  group.add(subText)
-  group.add(footerRect)
+    // --- 【下方区域】：浅灰长条页脚 ---
+    const footerRect = new VTableGantt.VRender.Rect({
+      x: 0,
+      y: splitY,
+      width: width,
+      height: height - splitY,
+      fill: '#dcdcdc', // 最下面的灰色
+      stroke: '#333',
+      lineWidth: 1
+    })
 
-  return {
-    rootContainer: group,
-    renderDefault: false
+    // 依次添加，后添加的会盖在先添加的上面
+    group.add(mainRect)
+    group.add(mainText)
+    group.add(subRect)
+    group.add(subText)
+    group.add(footerRect)
+
+    return {
+      rootContainer: group,
+      renderDefault: false
+    }
+  } else {
+    const { taskRecord, height, width } = args
+    console.log(args)
+    // const { width, height } = rect
+
+    // 1. 根容器 (直接把属性平铺)
+    const group = new VTableGantt.VRender.Group({
+      width,
+      height: 10,
+      clip: true,
+      cornerRadius: 0 // 显式设置为 0，确保直角
+    })
+
+    // 设定切分比例（比如 70% 宽，70% 高）
+    const splitX = width * 0.7
+    const splitY = height * 0.7
+
+    // --- 【左上区域】：白色背景 + 粗体主编号 ---
+    const mainRect = new VTableGantt.VRender.Rect({
+      name: 'main-rect-box',
+      x: 0,
+      y: 0,
+      width: splitX,
+      height: splitY,
+      fill: '#fff',
+      stroke: '#333',
+      lineWidth: 1,
+      cornerRadius: 0 // 直角
+    })
+    const mainText = new VTableGantt.VRender.Text({
+      text: taskRecord.name || '6302666',
+      x: splitX / 2,
+      y: splitY / 2,
+      fontSize: 12,
+      fontWeight: 'bold',
+      fill: '#000',
+      textAlign: 'center',
+      textBaseline: 'middle'
+    })
+    // --- 【右上区域】：浅灰背景 + 次要标识 ---
+    const subRect = new VTableGantt.VRender.Rect({
+      x: splitX,
+      y: 0,
+      width: width - splitX,
+      height: splitY,
+      fill: '#e0e0e0', // 稍微灰一点
+      stroke: '#333',
+      lineWidth: 1
+    })
+    const subText = new VTableGantt.VRender.Text({
+      text: '24/',
+      x: splitX + (width - splitX) / 2,
+      y: splitY / 2,
+      fontSize: 11,
+      fill: '#333',
+      textAlign: 'center',
+      textBaseline: 'middle'
+    })
+
+    // --- 【下方区域】：浅灰长条页脚 ---
+    const footerRect = new VTableGantt.VRender.Rect({
+      x: 0,
+      y: 0,
+      width: width,
+      height: 10,
+      fill: '#dcdcdc', // 最下面的灰色
+      stroke: '#333',
+      lineWidth: 1
+    })
+
+    // 依次添加，后添加的会盖在先添加的上面
+    // group.add(mainRect)
+    // group.add(mainText)
+    // group.add(subRect)
+    // group.add(subText)
+    group.add(footerRect)
+
+    return {
+      rootContainer: group,
+      renderDefault: false
+    }
   }
 }
+
 onMounted(() => {
   const now = new Date()
   const year = now.getFullYear()
@@ -840,6 +927,13 @@ onMounted(() => {
           ya_id: 'arg3_L',
           RH_id: 'rh3_L',
           zhu_id: 'cast3_L'
+        },
+        {
+          id: 'cast3_L_temp',
+          start: `${fullDate} 00:00`,
+          end: `${fullDate} 00:00`,
+          baselineStartDate: `${fullDate} 00:00`,
+          baselineEndDate: `${fullDate} 23:59`,
         }
       ]
     },
@@ -926,42 +1020,48 @@ onMounted(() => {
     },
 
     groupBy: true,
-    tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Inline,
+    tasksShowMode: VTableGantt.TYPES.TasksShowMode.Sub_Tasks_Inline,   // Sub_Tasks_Inline
 
     grid: {
-      horizontalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
-      verticalLine: { lineWidth: 1, lineColor: '#e1e4e8' },
-      horizontalBackgroundColor: [
-        '#f1f1f1',
-        '#f1f1f1',
-        '#f1f1f1',
-        '#dddddd',
-        '#dddddd',
-        '#dddddd',
-        '#cccccc',
-        '#cccccc',
-        '#cccccc',
-        '#aaa',
-        '#aaa'
-      ],
       verticalLineDependenceOnTimeScale: 'second',
+      horizontalBackgroundColor: [
+        '#ffffff',
+        '#ffffff',
+        '#ffffff',
+        '#f4f4e6',
+        '#f4f4e6',
+        '#f4f4e6',
+        '#ffffff',
+        '#ffffff',
+        '#ffffff',
+        '#f4f4e6',
+        '#f4f4e6'
+      ],
+      horizontalLine: { lineWidth: 1, lineColor: '#c6d5e0' },
       verticalLine: function (args) {
-        if (args.index % 5 === 0) {
+        if (args.index % 5 === 4) {
           return {
             lineWidth: 1,
-            lineColor: '#ffffff'
+            lineColor: '#c6d5e0'
           }
         } else {
           return {
             lineWidth: 1,
-            lineColor: '#ffffff',
+            lineColor: '#acacad',
             lineDash: [3]
           }
         }
       }
     },
-
     rowHeight: 50,
+    // rowHeight: (args) => {
+    //   console.log(args)
+    //   // 例如：第 2 行 (索引为 1) 设置得更高
+    //   if (args.index === 1) {
+    //     return 80;
+    //   }
+    //   return 40; // 默认高度
+    // },
 
     taskBar: {
       resizable: false,
@@ -969,6 +1069,9 @@ onMounted(() => {
       startDateField: 'start',
       endDateField: 'end',
       labelText: '{name}',
+      baselineStartDateField: 'baselineStartDate',
+      baselineEndDateField: 'baselineEndDate',
+      // baselinePosition:'bottom',
       barStyle: (args) => {
         const isCeshi = args.taskRecord.ceshi
         return {
@@ -983,11 +1086,11 @@ onMounted(() => {
     dependency: {
       links: [],
       linkDeletable: true,
-      distanceToTaskBar:20
+      distanceToTaskBar: 20
     },
 
     timelineHeader: {
-      colWidth: 10,
+      colWidth: 5,
       horizontalLine: {
         lineWidth: 0,
         lineColor: '#ccc'
@@ -1017,13 +1120,13 @@ onMounted(() => {
             const m = String(d.getMinutes()).padStart(2, '0')
             return `${h}:${m}`
           },
-          rowHeight: 10,
+          rowHeight: 3,
           style: {
             fontSize: 12,
-            color: '#000',
+            color: '#3e41f9',
             textAlign: 'center',
             fontWeight: 'normal',
-            padding: [0, 100, 33, 0]
+            padding: [0, 49, 30, 0]
           }
         },
         {
@@ -1032,7 +1135,7 @@ onMounted(() => {
           format(date) {
             return ''
           },
-          rowHeight: 10,
+          rowHeight: 5,
           style: {
             fontSize: 0
           }
@@ -1043,7 +1146,7 @@ onMounted(() => {
           format(date) {
             return ''
           },
-          rowHeight: 10,
+          rowHeight: 7,
           style: {
             fontSize: 0
           }
@@ -1071,6 +1174,10 @@ onMounted(() => {
         borderLineWidth: 1,
         borderColor: '#e1e4e8',
         cornerRadius: 0
+      },
+      horizontalSplitLine: {
+        lineColor: "#c6d5e0",
+        lineWidth: 1
       },
       verticalSplitLineMoveable: false
     },
