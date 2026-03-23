@@ -147,17 +147,64 @@ export class TaskBar {
                     taskBarYOffset = startY, baselineY = y + startY + taskbarHeight + gap;
                 }
             }
-            baselineBar = createRect({
-                x: baselineX,
-                y: baselineY,
-                width: Math.max(baselineWidth, baselineStyle.minSize || 0),
-                height: baselineStyle.width,
-                fill: baselineStyle.barColor,
-                cornerRadius: baselineStyle.cornerRadius,
-                lineWidth: 2 * (null !== (_d = baselineStyle.borderLineWidth) && void 0 !== _d ? _d : baselineStyle.borderWidth),
-                stroke: baselineStyle.borderColor,
-                pickable: !1
-            }), baselineBar.name = "baseline-bar";
+            
+            // Check if taskBarCustomLayout is provided for baseline
+            let renderDefaultBaseline = true;
+            if (taskBarCustomLayout) {
+                let customLayoutObj;
+                if ("function" == typeof taskBarCustomLayout) {
+                    customLayoutObj = taskBarCustomLayout({
+                        width: baselineWidth,
+                        height: baselineStyle.width,
+                        index: index,
+                        startDate: baselineInfo.baselineStartDate,
+                        endDate: baselineInfo.baselineEndDate,
+                        taskDays: baselineInfo.baselineDays,
+                        progress: 100, // Baseline is always 100% complete
+                        taskRecord: taskRecord,
+                        ganttInstance: this._scene._gantt,
+                        isBaseline: true // Add flag to indicate it's a baseline
+                    });
+                } else {
+                    customLayoutObj = taskBarCustomLayout;
+                }
+                
+                if (customLayoutObj && customLayoutObj.rootContainer) {
+                    const baselineGroup = new Group({
+                        x: baselineX,
+                        y: baselineY+10,
+                        width: Math.max(baselineWidth, baselineStyle.minSize || 0),
+                        height: baselineStyle.width,
+                        pickable: !1
+                    });
+                    baselineGroup.name = "baseline-bar";
+                    baselineGroup.appendChild(customLayoutObj.rootContainer);
+                    baselineBar = baselineGroup;
+                    renderDefaultBaseline = null !== customLayoutObj.renderDefaultBar && customLayoutObj.renderDefaultBar;
+                }
+            }
+            
+            // Create default baseline bar if custom layout is not provided or renderDefaultBaseline is true
+            if (!baselineBar || renderDefaultBaseline) {
+                const defaultBaselineBar = createRect({
+                    x: baselineX,
+                    y: baselineY,
+                    width: Math.max(baselineWidth, baselineStyle.minSize || 0),
+                    height: baselineStyle.width,
+                    fill: baselineStyle.barColor,
+                    cornerRadius: baselineStyle.cornerRadius,
+                    lineWidth: 2 * (null !== (_d = baselineStyle.borderLineWidth) && void 0 !== _d ? _d : baselineStyle.borderWidth),
+                    stroke: baselineStyle.borderColor,
+                    pickable: !1
+                });
+                defaultBaselineBar.name = "baseline-bar";
+                
+                if (!baselineBar) {
+                    baselineBar = defaultBaselineBar;
+                } else if (renderDefaultBaseline && baselineBar instanceof Group) {
+                    baselineBar.appendChild(defaultBaselineBar);
+                }
+            }
         }
         const taskBarPaddingTop = null !== (_e = taskBarStyle.paddingTop) && void 0 !== _e ? _e : void 0;
         y += hasBaseline && !isMilestone && "overlap" !== baselinePosition ? taskBarYOffset : void 0 !== taskBarPaddingTop ? taskBarPaddingTop : (oneTaskHeigth - (isMilestone ? milestoneTaskBarHeight : taskbarHeight)) / 2 + taskBarYOffset;
